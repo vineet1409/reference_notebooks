@@ -101,3 +101,33 @@ ON pod.PurchaseOrderID = poh.PurchaseOrderID
 DELETE TOP(2) from Purchasing.PurchaseOrderDetail
 
 -- DROP deletes the table from our DB
+
+
+SELECT SUBSTRING(FULL_NAME, 1, CHARINDEX(' ', FULL_NAME) - 1) AS FIRST_NAME --- returns the first-name from full name
+FROM your_table;
+
+
+--- stored procedure
+CREATE PROCEDURE get_customer_orders
+  @customer_id INT
+AS
+BEGIN
+  SELECT *
+  FROM orders
+  WHERE customer_id = @customer_id
+END
+
+EXEC get_customer_orders @customer_id = 1234
+
+
+--- case end 
+SELECT CASE 
+         WHEN column1 = 'value1' THEN 'result1'
+         WHEN column1 = 'value2' THEN 'result2'
+         ELSE 'default result'
+       END AS my_function
+FROM my_table
+WHERE my_function = 'result1'
+
+
+
