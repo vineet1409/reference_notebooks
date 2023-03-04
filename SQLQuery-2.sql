@@ -78,6 +78,11 @@ from sales.SalesOrderDetail
 group by SalesOrderID
 HAVING SUM(UnitPrice)> 10000; -- note u cannot use where with aggregate clause unless its a subquery
 
+select distinct TOP 100  PurchaseOrderID
+from Purchasing.PurchaseOrderDetail
+where PurchaseOrderID >=1000
+order by PurchaseOrderID desc;
+
 
 select SalesOrderID, SUM(UnitPrice) as 'totalunitpriceperID' 
 from sales.SalesOrderDetail
