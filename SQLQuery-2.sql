@@ -131,3 +131,35 @@ WHERE my_function = 'result1'
 
 
 
+select max(UnitPrice) 
+from Purchasing.PurchaseOrderDetail 
+where UnitPrice<(select max(UnitPrice) from Purchasing.PurchaseOrderDetail) -- 2nd highest max salary
+
+
+select PurchaseOrderID, max(UnitPrice) as 'max_price'
+from Purchasing.PurchaseOrderDetail 
+group by PurchaseOrderID --- max unit price by department
+
+
+select PurchaseOrderID, AVG(UnitPrice) as 'avg'
+from Purchasing.PurchaseOrderDetail
+where PurchaseOrderID %2 = 0
+group by PurchaseOrderID  ---> alternate records with group by
+
+select *
+from Purchasing.PurchaseOrderDetail 
+
+select PurchaseOrderID, count(PurchaseOrderID) as 'cnt'
+from Purchasing.PurchaseOrderDetail
+group by PurchaseOrderID
+having count(PurchaseOrderID) >1  ---> frq of duplicates
+
+SELECT *
+FROM (
+    SELECT *, ROW_NUMBER() OVER (ORDER BY PurchaseOrderID) AS RowNum
+    FROM Purchasing.PurchaseOrderDetail
+) AS Subquery
+WHERE RowNum = 5;
+
+
+
