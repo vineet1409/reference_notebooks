@@ -1,0 +1,52 @@
+# Import necessary libraries
+import pandas as pd
+from sklearn.datasets import load_iris
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.decomposition import PCA
+from sklearn.svm import SVC
+
+# Load iris dataset
+iris = load_iris()
+X = pd.DataFrame(iris.data, columns=iris.feature_names)
+y = iris.target
+
+# Split dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Define preprocessing steps for numerical and categorical columns
+numerical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaler', StandardScaler())
+])
+
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder())
+])
+
+# Combine the preprocessing steps using a ColumnTransformer
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, X_train.select_dtypes(include=['int64', 'float64']).columns),
+        ('cat', categorical_transformer, X_train.select_dtypes(include=['object', 'category']).columns)
+    ])
+
+# Create a pipeline for preprocessing and model creation
+pipe = Pipeline([
+    ('preprocessor', preprocessor),
+    ('pca', PCA(n_components=2)),
+    ('classifier', SVC(kernel='linear', C=1))
+])
+
+# Train the model using the pipeline
+pipe.fit(X_train, y_train)
+
+# Test the model using the pipeline
+accuracy = pipe.score(X_test, y_test)
+
+# Print the accuracy score
+print(f"Accuracy: {accuracy}")
