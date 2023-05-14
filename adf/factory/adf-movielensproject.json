@@ -1,0 +1,9 @@
+{
+	"name": "adf-movielensproject",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "0476390f-a642-4849-b1d5-efb855d9f5e6",
+		"tenantId": "e202cd47-7a56-4baa-99e3-e3b71a7c77dd"
+	}
+}
